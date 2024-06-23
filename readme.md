@@ -1,9 +1,11 @@
 
 # Seegah Pro
 
-As I started learning seegah, I though it would be great to develop an app to help memorize and practice seegah for the student. Currently, it only contains 1,500 verbs of Quran, maybe enough for a beginner, but as I set through my journey, slowly I will add more words. The DB, and the code for scraping the data, and algorithms for manual translations and data normalization are included in the repo, feel free to use them without any permission.
+When I began learning "seegah," I thought it would be nice to develop an app to help students memorize and practice seegah more easily. Currently, the app contains 1,500 verbs from the Quran, which may be sufficient for beginners. However, as I continue on this journey, I will gradually add more words.
 
-But! keep this banda in your prayer.
+The database, code for data scraping, algorithms for manual translations, and data normalization are all included in the repository. Feel free to use them without any need for permission.
+
+But! Please remember this servant in your prayers.
 
 ## Gratitude and Appreciation
 
