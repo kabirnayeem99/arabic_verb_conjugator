@@ -52,27 +52,11 @@ def create_new_table():
     DROP INDEX IF EXISTS idx_word;
     """
     cursor.execute(drop_index_word_sql)
-    drop_index_past_known_sql = """
-    DROP INDEX IF EXISTS idx_past_known;
-    """
-    cursor.execute(drop_index_past_known_sql)
-    drop_index_present_known_sql = """
-    DROP INDEX IF EXISTS idx_present_known;
-    """
-    cursor.execute(drop_index_present_known_sql)
 
     create_index_word_sql = """
     CREATE INDEX idx_word ON VerbConjugations (word);
     """
     cursor.execute(create_index_word_sql)
-    create_index_past_known_sql = """
-    CREATE INDEX idx_past_known ON VerbConjugations (past_known);
-    """
-    cursor.execute(create_index_past_known_sql)
-    create_index_present_known_sql = """
-    CREATE INDEX idx_present_known ON VerbConjugations (present_known);
-    """
-    cursor.execute(create_index_present_known_sql)
 
     conn.commit()
 
