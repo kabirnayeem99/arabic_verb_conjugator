@@ -1,6 +1,7 @@
 import sqlite3
-import json
-from src.translate_service import translate_to_en
+from src.translate_service import translate_to_en, translate_pronoun_to_en
+from src.english_verbs import conjugate
+import re
 
 def create_new_table():
     conn = sqlite3.connect('generated/verbs.db')
@@ -124,12 +125,33 @@ def insert_conjugator_data(word, word_meaning, data):
     for key, values in data.items():
         if (key==0):
             continue
+
         pronoun = values.get(0, "")                            # pronoun
-        pronoun_meaning = translate_to_en(values.get(0, ""))   # pronoun_meaning
+        if pronoun:
+            pronoun_meaning = translate_pronoun_to_en(pronoun)   # pronoun_meaning
+        else: 
+            pronoun_meaning = ""
+
         past_known = values.get(1, "")                         # past_known
-        past_known_meaning = translate_to_en(values.get(1, ""))# past_known_meaning
+        if past_known:
+            conj_verb = conjugate_english_verb(word_meaning, pronoun=pronoun_meaning, tense="past")
+            if conj_verb:
+                past_known_meaning = pronoun_meaning + " " + conj_verb 
+            else:
+                past_known_meaning = ""
+        else:
+            past_known_meaning = ""
+
         present_known = values.get(2, "")                      # present_known
-        present_known_meaning = translate_to_en(values.get(2, ""))# present_known_meaning
+        if present_known:
+            conj_verb = conjugate_english_verb(word_meaning, pronoun=pronoun_meaning, tense="present")
+            if conj_verb:
+                present_known_meaning = pronoun_meaning + " " + conj_verb
+            else:
+                present_known_meaning = ""
+        else:
+            present_known_meaning = "" 
+
         present_subjunctive = values.get(3, "")                # present_subjunctive
         present_subjunctive_meaning = translate_to_en(values.get(3, "")) # present_subjunctive_meaning
         present_construct = values.get(4, "")                  # present_construct
@@ -138,7 +160,8 @@ def insert_conjugator_data(word, word_meaning, data):
         present_confirmed_heavy_meaning = translate_to_en(values.get(5, "")) # present_confirmed_heavy_meaning
         imperative = values.get(6, "")                         # imperative
         if imperative:
-            imperative_meaning = remove_to(word_meaning) + "!" # imperative_meaning
+            conj_verb =remove_to(word_meaning)
+            imperative_meaning =  conj_verb.replace("not ", "Don't ") + "!" # imperative_meaning
         else:
             imperative_meaning = ""
         confirmed_imperative = values.get(7, "")               # confirmed_imperative
@@ -190,7 +213,61 @@ def insert_conjugator_data(word, word_meaning, data):
     cursor.close()
     conn.close()
 
-import re
+
+def conjugate_english_verb(verb_phrase, pronoun = "he",tense = "present"):
+    try: 
+        person, number = get_person_number(pronoun=pronoun)
+        verb_phrase = remove_to(verb_phrase)
+        words = verb_phrase.split()
+        verb = words[0].strip()
+
+        if person and number:
+            verb = conjugate.conjugate(verb, person=person,number=number,tense=tense)
+            if verb is None: 
+                return ""
+            else:
+                return verb + " " + " ".join(words[1:])
+        
+        irregular_verbs = {
+            "have": "has",
+            "do": "does",
+            "be": "is"
+        }
+        
+        if verb in irregular_verbs:
+            return irregular_verbs[verb] + " " + " ".join(words[1:])
+        
+        if verb.endswith("s") or verb.endswith("sh") or verb.endswith("ch") or verb.endswith("x") or verb.endswith("z"):
+            return verb + "es" + " " + " ".join(words[1:])
+        elif verb.endswith("y") and verb[-2] not in "aeiou":
+            return verb[:-1] + "ies" + " " + " ".join(words[1:])
+        elif verb.endswith("o") and verb[-2] not in "aeiou":
+            return verb + "es" + " " + " ".join(words[1:])
+        else:
+            return verb + "s" + " " + " ".join(words[1:])
+    except:
+        return ""
+
+def get_person_number(pronoun):
+    singular_third_person = ["he", "she", "it"]
+    plural_third_person = ["they"]
+    singular_second_person = ["you"]
+    singular_first_person = ["I"]
+    plural_first_person = ["we"]
+    
+    if pronoun.lower() in singular_third_person:
+        return "third", "singular"
+    elif pronoun.lower() in plural_third_person:
+        return "third", "plural"
+    elif pronoun.lower() in singular_second_person:
+        return "second", "singular"
+    elif pronoun.lower() in singular_first_person:
+        return "first", "singular"
+    elif pronoun.lower() in plural_first_person:
+        return "first", "plural"
+    else:
+        return "", ""
+
 
 def remove_harakat(word):
     harakat_pattern = "[ًٌٍَُِّْ]"
