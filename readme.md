@@ -9,7 +9,7 @@ But! Please remember this servant in your prayers.
 
 ## Gratitude and Appreciation
 
-- [Quran Corpus - Verb Concordance](https://corpus.quran.com/verbs.jsp), for the list of verbs used in the Quran sorted by frequency, along with English translation.
-- [English Verbs](https://github.com/jeidsath/englishverbs), for alogorithm for conjugating English verbs used for manual translations of the seegah.
-- [Argos Translate](https://github.com/argosopentech/argos-translate), for translations of missing words.
-- [Qutrub - قطرب](https://github.com/linuxscout/qutrub), for Arabic verb conjugation data.
+- [Quran Corpus - Verb Concordance](https://corpus.quran.com/verbs.jsp): For providing a comprehensive list of verbs used in the Quran, sorted by frequency, along with their English translations.
+- [English Verbs](https://github.com/jeidsath/englishverbs): For the algorithm used in conjugating English verbs, which assisted in manual translations of the seegah.
+- [Argos Translate](https://github.com/argosopentech/argos-translate): For helping with translations of missing words.
+- [Qutrub - قطرب](https://github.com/linuxscout/qutrub): For offering valuable data on Arabic verb conjugation.
