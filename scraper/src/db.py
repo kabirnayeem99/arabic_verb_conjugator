@@ -249,25 +249,32 @@ def conjugate_english_verb(verb_phrase, pronoun = "he",tense = "present"):
         return ""
 
 def get_person_number(pronoun):
+    plural_third_person = ["they", "they (two)", "they (two - dual polite)"]
     singular_third_person = ["he", "she", "it"]
-    plural_third_person = ["they"]
-    singular_second_person = ["you"]
-    singular_first_person = ["I"]
+    plural_second_person = ["you (plural)", "you (female - plural)", "you (two)", "you (two - dual polite)"]
+    singular_second_person = ["you (male)", "you (female)", "you"]
+    singular_first_person = ["i"]
     plural_first_person = ["we"]
+
+    only_pronoun = remove_parentheses_content(pronoun)
     
-    if pronoun.lower() in singular_third_person:
+    if only_pronoun.lower() in singular_third_person:
         return "third", "singular"
-    elif pronoun.lower() in plural_third_person:
+    elif only_pronoun.lower() in plural_third_person:
         return "third", "plural"
-    elif pronoun.lower() in singular_second_person:
+    elif only_pronoun.lower() in singular_second_person:
         return "second", "singular"
-    elif pronoun.lower() in singular_first_person:
+    elif only_pronoun.lower() in singular_first_person:
         return "first", "singular"
-    elif pronoun.lower() in plural_first_person:
+    elif only_pronoun.lower() in plural_second_person:
+        return "second", "plural"
+    elif only_pronoun.lower() in plural_first_person:
         return "first", "plural"
     else:
         return "", ""
 
+def remove_parentheses_content(s):
+    return re.sub(r'\([^)]*\)', '', s).strip()
 
 def remove_harakat(word):
     harakat_pattern = "[ًٌٍَُِّْ]"

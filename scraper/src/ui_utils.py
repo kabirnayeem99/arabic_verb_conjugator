@@ -9,6 +9,8 @@ def show_progress_bar(current_item, total_items, bar_length=50):
     sys.stdout.write('\r')
     sys.stdout.write(progress_string)
     sys.stdout.flush()
+    if (progress == 100):
+        print(f"\n")
 
 def show_program_title():
     print("╔════════════════════════════════════╗")
