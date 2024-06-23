@@ -1,16 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-import re
-import time
 from src.ui_utils import show_progress_bar
 import requests_cache
+from src.utils import is_arabic
 
 base_url = 'https://corpus.quran.com/verbs.jsp'
 requests_cache.install_cache('corpus_cache', expire_after=None)
-
-def is_arabic(text):
-    arabic_pattern = re.compile(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]+')
-    return bool(arabic_pattern.search(text))
 
 def extract_verbs_with_meaning(): 
 

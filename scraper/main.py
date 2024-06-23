@@ -28,6 +28,5 @@ def main():
     show_progress_bar(total_verbs, total_verbs)
 
 
-
 if __name__ == "__main__":
     main()
